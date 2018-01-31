@@ -30,8 +30,19 @@ fi
 
 echo "Opnecv version ${OPENCV_VERSION}"
 
+case "$(uname -s)" in
+Darwin)
+PHYS_DIR=`pwd -P`
+RESULT=$PHYS_DIR/$TARGET_FILE
+WD=$RESULT
+;;
+
+Linux)
 SCRIPT=$(readlink -f $0)
 WD=`dirname $SCRIPT`
+;;
+esac
+
 ### Download android-ndk-downloader
 if [ ! -d "${WD}/android-ndk-downloader" ]; then
     echo 'Cloning android-ndk-downloader'
@@ -48,12 +59,12 @@ fi
 cd opencv
 git checkout -b "${OPENCV_VERSION}" "${OPENCV_VERSION}"
 
-cd "${WD}"
-if [ ! -d "${WD}/opencv_contrib" ]; then
-    echo 'Cloning opencv_contrib'
-    git clone https://github.com/opencv/opencv_contrib.git
-fi
-cd opencv_contrib
-git checkout -b "${OPENCV_VERSION}" "${OPENCV_VERSION}"
+#cd "${WD}"
+#if [ ! -d "${WD}/opencv_contrib" ]; then
+#    echo 'Cloning opencv_contrib'
+#    git clone https://github.com/opencv/opencv_contrib.git
+#fi
+#cd opencv_contrib
+#git checkout -b "${OPENCV_VERSION}" "${OPENCV_VERSION}"
 
 cd "${WD}"
